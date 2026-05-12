@@ -22,6 +22,8 @@
             padding: 0;
         }
 
+        html { scroll-behavior: smooth; }
+
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: var(--primary-dark);
@@ -34,7 +36,6 @@
         .font-serif { font-family: 'Playfair Display', serif; }
         .font-cursive { font-family: 'Great Vibes', cursive; }
 
-        /* FIXED BACKGROUND SYSTEM */
         .bg-container {
             position: fixed;
             top: 0;
@@ -76,10 +77,10 @@
             height: 100%;
             overflow-y: auto;
             display: none;
-            padding: 40px 20px 180px 20px; /* Ditambah agar tidak terhalang nav */
+            padding: 40px 20px 180px 20px;
             flex-direction: column;
             align-items: center;
-            -webkit-overflow-scrolling: touch; /* Smooth scroll iOS */
+            -webkit-overflow-scrolling: touch;
         }
 
         section.active {
@@ -90,7 +91,7 @@
         .content-wrapper {
             width: 100%;
             max-width: 450px;
-            margin: 0 auto; /* Hilangkan margin auto vertikal agar mulai dari atas */
+            margin: 0 auto;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -114,15 +115,15 @@
             bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
-            max-width: 400px;
+            width: 95%;
+            max-width: 450px;
             background: rgba(26, 20, 14, 0.98);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(212, 175, 55, 0.4);
             border-radius: 50px;
             display: flex;
             justify-content: space-around;
-            padding: 12px 0;
+            padding: 12px 5px;
             z-index: 1000;
         }
 
@@ -143,7 +144,7 @@
         }
 
         .tab-item span {
-            font-size: 8px;
+            font-size: 7px;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-top: 4px;
@@ -153,7 +154,7 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            z-index: 5000;
+            z-index: 500;
             background: rgba(212, 175, 55, 0.2);
             border: 1px solid var(--accent-gold);
             width: 40px;
@@ -164,17 +165,11 @@
             justify-content: center;
             color: var(--accent-gold);
             cursor: pointer;
-            transition: all 0.3s;
         }
 
-        .music-btn.playing {
-            animation: rotate 4s linear infinite;
-        }
+        .music-btn.playing { animation: rotate 4s linear infinite; }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         .overlay-screen {
             position: fixed;
@@ -196,19 +191,44 @@
             font-size: 11px;
             letter-spacing: 2px;
             text-transform: uppercase;
-            border: none;
             box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
-            cursor: pointer;
-            margin-top: 20px;
         }
 
-        /* Countdown Style */
-        .countdown-item {
-            background: rgba(212, 175, 55, 0.15);
+        .form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(212, 175, 55, 0.3);
             border-radius: 12px;
-            min-width: 60px;
-            padding: 10px 5px;
+            padding: 12px 15px;
+            color: white;
+            font-size: 13px;
+            margin-bottom: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .form-input:focus { border-color: var(--accent-gold); background: rgba(255, 255, 255, 0.1); }
+        
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23d4af37'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 15px;
+        }
+
+        .guest-book {
+            max-height: 400px;
+            overflow-y: auto;
+            text-align: left;
+            padding-right: 5px;
+        }
+        
+        .message-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 2px solid var(--accent-gold);
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 0 12px 12px 0;
         }
 
         .divider {
@@ -222,13 +242,11 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: var(--accent-gold); border-radius: 10px; }
     </style>
 </head>
 <body>
 
+    <!-- COVER OVERLAY -->
     <div id="overlay" class="overlay-screen">
         <div class="bg-container">
             <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop" class="bg-image" alt="Mempelai">
@@ -246,13 +264,14 @@
         </div>
     </div>
 
+    <!-- MAIN BACKGROUND ELEMENTS -->
     <div class="bg-container">
         <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop" class="bg-image" alt="Background">
     </div>
     <div class="bg-overlay"></div>
 
     <button id="music-toggle" class="music-btn" onclick="toggleMusic()">
-        <svg id="music-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
     </button>
 
     <audio id="bg-music" loop>
@@ -260,79 +279,81 @@
     </audio>
 
     <div class="main-content">
-        <!-- Home Section -->
         <section id="home" class="active">
             <div class="content-wrapper">
                 <div class="mt-12 mb-8">
                     <p class="text-[10px] tracking-[0.5em] uppercase text-[#d4af37] mb-2 font-bold animate__animated animate__fadeInDown">Assalamu'alaikum Wr. Wb.</p>
                     <div class="divider"></div>
                 </div>
-                
-                <h1 class="font-cursive text-7xl text-[#d4af37] my-6 drop-shadow-lg animate__animated animate__zoomIn">Wulan & Angga</h1>
+                <h1 class="font-cursive text-7xl text-[#d4af37] my-6 animate__animated animate__zoomIn">Wulan & Angga</h1>
                 <p class="text-[12px] tracking-[0.6em] text-[#d4af37] font-bold mb-8">18 - 19 MEI 2026</p>
-                
-                <!-- Countdown -->
                 <div id="countdown" class="flex justify-center gap-3 mb-8">
-                    <div class="countdown-item"><span id="days" class="block text-xl font-bold">00</span><span class="text-[8px] uppercase">Hari</span></div>
-                    <div class="countdown-item"><span id="hours" class="block text-xl font-bold">00</span><span class="text-[8px] uppercase">Jam</span></div>
-                    <div class="countdown-item"><span id="minutes" class="block text-xl font-bold">00</span><span class="text-[8px] uppercase">Menit</span></div>
-                    <div class="countdown-item"><span id="seconds" class="block text-xl font-bold">00</span><span class="text-[8px] uppercase">Detik</span></div>
+                    <!-- Countdown items inside -->
+                    <div class="w-16 h-16 bg-[#d4af37]/10 border border-[#d4af37]/30 rounded-xl flex flex-col items-center justify-center">
+                        <span id="days" class="text-xl font-bold">00</span>
+                        <span class="text-[8px] uppercase">Hari</span>
+                    </div>
+                    <div class="w-16 h-16 bg-[#d4af37]/10 border border-[#d4af37]/30 rounded-xl flex flex-col items-center justify-center">
+                        <span id="hours" class="text-xl font-bold">00</span>
+                        <span class="text-[8px] uppercase">Jam</span>
+                    </div>
+                    <div class="w-16 h-16 bg-[#d4af37]/10 border border-[#d4af37]/30 rounded-xl flex flex-col items-center justify-center">
+                        <span id="minutes" class="text-xl font-bold">00</span>
+                        <span class="text-[8px] uppercase">Menit</span>
+                    </div>
+                    <div class="w-16 h-16 bg-[#d4af37]/10 border border-[#d4af37]/30 rounded-xl flex flex-col items-center justify-center">
+                        <span id="seconds" class="text-xl font-bold">00</span>
+                        <span class="text-[8px] uppercase">Detik</span>
+                    </div>
                 </div>
-
-                <div class="divider"></div>
                 <p class="max-w-xs mx-auto text-[11px] italic leading-relaxed opacity-90 px-4 text-white">
                     "Maha Suci Allah yang telah menciptakan mahluk-Nya berpasang-pasangan. Ya Allah, jika Engkau memperkenankan kami: MENIKAH"
                 </p>
             </div>
         </section>
 
-        <!-- Couple Section -->
         <section id="couple">
             <div class="content-wrapper">
                 <h2 class="text-xl font-serif text-[#d4af37] mb-8 mt-4 uppercase tracking-[0.3em]">Kedua Mempelai</h2>
-                <div class="space-y-6">
-                    <div class="card animate__animated animate__fadeInLeft">
-                        <div class="w-24 h-24 mx-auto rounded-full border-2 border-[#d4af37] mb-4 overflow-hidden">
-                            <img src="https://placehold.co/200x200/2c241d/d4af37?text=Wulan" alt="Wulan" class="w-full h-full object-cover">
-                        </div>
-                        <h3 class="font-cursive text-5xl text-[#d4af37]">Sri Wulan</h3>
-                        <p class="text-[10px] mt-4 uppercase tracking-widest leading-relaxed font-light">
-                            Putri Tunggal dari Bapak Supriyanto (Alm)<br>& Ibu Lilis Lestari (Almh)
-                        </p>
+                <div class="card animate__animated animate__fadeInLeft">
+                    <div class="w-24 h-24 mx-auto rounded-full border-2 border-[#d4af37] mb-4 overflow-hidden">
+                        <img src="https://placehold.co/200x200/2c241d/d4af37?text=Wulan" alt="Wulan" class="w-full h-full object-cover">
                     </div>
-                    <div class="text-3xl font-cursive text-[#d4af37] opacity-60">dan</div>
-                    <div class="card animate__animated animate__fadeInRight">
-                        <div class="w-24 h-24 mx-auto rounded-full border-2 border-[#d4af37] mb-4 overflow-hidden">
-                            <img src="https://placehold.co/200x200/2c241d/d4af37?text=Angga" alt="Angga" class="w-full h-full object-cover">
-                        </div>
-                        <h3 class="font-cursive text-5xl text-[#d4af37]">M. Okky Anggareksa</h3>
-                        <p class="text-[10px] mt-4 uppercase tracking-widest leading-relaxed font-light">
-                            Putra Pertama dari Bapak Purwanto<br>& Ibu Saodah
-                        </p>
+                    <h3 class="font-cursive text-5xl text-[#d4af37]">Sri Wulan</h3>
+                    <p class="text-[10px] mt-4 uppercase tracking-widest leading-relaxed font-light">
+                        Putri Tunggal dari Bapak Supriyanto (Alm)<br>& Ibu Lilis Lestari (Almh)
+                    </p>
+                </div>
+                <div class="text-3xl font-cursive text-[#d4af37] opacity-60">dan</div>
+                <div class="card animate__animated animate__fadeInRight">
+                    <div class="w-24 h-24 mx-auto rounded-full border-2 border-[#d4af37] mb-4 overflow-hidden">
+                        <img src="https://placehold.co/200x200/2c241d/d4af37?text=Angga" alt="Angga" class="w-full h-full object-cover">
                     </div>
+                    <h3 class="font-cursive text-5xl text-[#d4af37]">M. Okky Anggareksa</h3>
+                    <p class="text-[10px] mt-4 uppercase tracking-widest leading-relaxed font-light">
+                        Putra Pertama dari Bapak Purwanto<br>& Ibu Saodah
+                    </p>
                 </div>
             </div>
         </section>
-        <!-- Event Section -->
+
         <section id="event">
             <div class="content-wrapper">
-                <h2 class="text-xl font-serif text-[#d4af37] mb-8 mt-4 uppercase tracking-[0.3em]">Resepsi</h2>
+                <h2 class="text-xl font-serif text-[#d4af37] mb-8 mt-4 uppercase tracking-[0.3em]">Acara Resepsi</h2>
                 <div class="card animate__animated animate__zoomIn">
                     <div class="space-y-6">
                         <div>
-                            <p class="text-[9px] uppercase tracking-widest text-[#d4af37] mb-2 font-bold">Hari</p>
-                            <p class="font-semibold text-xl">Senin malam Selasa</p>
+                            <p class="text-[9px] uppercase tracking-widest text-[#d4af37] mb-1 font-bold">Hari</p>
+                            <p class="font-semibold text-lg">Senin malam Selasa</p>
                         </div>
-                        <div class="py-6 border-y border-[#d4af37]/20">
-                            <p class="text-[9px] uppercase tracking-widest text-[#d4af37] mb-2 font-bold">Tanggal</p>
-                            <p class="text-6xl font-bold text-[#d4af37]">18-19</p>
-                            <p class="text-sm uppercase tracking-[0.3em] mt-2">Mei 2026</p>
+                        <div class="py-4 border-y border-[#d4af37]/20">
+                            <p class="text-5xl font-bold text-[#d4af37]">18-19</p>
+                            <p class="text-sm uppercase tracking-[0.3em] mt-1">Mei 2026</p>
                         </div>
                         <div>
                             <p class="text-[9px] uppercase tracking-widest text-[#d4af37] mb-2 font-bold">Lokasi</p>
-                            <p class="text-[11px] leading-relaxed italic opacity-90 px-4 mb-4">
-                                Kp. Kebon Rt. 05/Rw.01, Ds. Jejalenjaya,<br>
-                                Kec. Tambun Utara, Kab. Bekasi
+                            <p class="text-[11px] leading-relaxed italic opacity-90 mb-4 px-2">
+                                Kp. Kebon Rt. 05/Rw.01, Ds. Jejalenjaya,<br>Kec. Tambun Utara, Kab. Bekasi
                             </p>
                             <a href="https://maps.app.goo.gl/t8nU97nQ4uUFr8Pn9?g_st=ac" target="_blank" class="inline-block px-6 py-2 bg-[#d4af37] text-black rounded-full text-[10px] font-bold uppercase tracking-widest">Buka Google Maps</a>
                         </div>
@@ -340,54 +361,78 @@
                 </div>
             </div>
         </section>
-        <!-- Gifts Section -->
-        <section id="gifts">
+
+        <section id="rsvp">
             <div class="content-wrapper">
-                <h2 class="text-xl font-serif text-[#d4af37] mb-6 mt-4 uppercase tracking-[0.3em]">Kado Digital</h2>
-                <p class="text-[10px] mb-6 opacity-80 leading-relaxed px-4">
-                    Doa restu Anda merupakan karunia terindah bagi kami. Namun jika Anda ingin memberi tanda kasih, dapat melalui pembayaran non-tunai berikut:
-                </p>
+                <h2 class="text-xl font-serif text-[#d4af37] mb-8 mt-4 uppercase tracking-[0.3em]">Kehadiran & Ucapan</h2>
                 
                 <div class="card animate__animated animate__fadeInUp">
-                    <!-- QRIS Section -->
-                    <!--<div class="mb-8 p-4 bg-white rounded-2xl inline-block mx-auto">
-                        <p class="text-[9px] text-black font-bold uppercase mb-2 tracking-widest">Scan QRIS</p>
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=QRIS_WULAN_ANGGA_PREMIUM_EXAMPLE" 
-                             alt="QRIS Kado Digital" 
-                             class="w-48 h-48 mx-auto"
-                             onerror="this.src='https://placehold.co/200x200/white/000000?text=QRIS+WULAN+ANGGA'">
-                        <p class="text-[10px] text-black font-semibold mt-2">A.N Wulan & Angga</p>
-                    </div>-->
-
-                    <div class="space-y-4">
-                        <div class="text-left p-4 bg-white/5 rounded-xl border border-white/10">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <p class="text-[9px] text-[#d4af37] uppercase font-bold mb-1">Bank Central Asia (BCA)</p>
-                                    <p class="text-lg font-bold">8420898062</p>
-                                    <p class="text-[10px] opacity-70">a.n M. Okky Anggareksa</p>
-                                </div>
-                                <button onclick="copyText('8420898062')" class="text-[9px] border border-[#d4af37] px-3 py-1 rounded-full text-[#d4af37] hover:bg-[#d4af37] hover:text-black transition-all">Salin</button>
-                            </div>
-                        </div>
+                    <p class="text-[11px] mb-6 opacity-80 leading-relaxed px-2 text-center">
+                        Mohon konfirmasikan kehadiran Anda dan berikan doa restu:
+                    </p>
+                    
+                    <div class="text-left mb-8">
+                        <label class="text-[9px] uppercase text-[#d4af37] ml-2 font-bold">Nama Lengkap</label>
+                        <input type="text" id="rsvp-name" class="form-input" placeholder="Masukkan nama Anda">
                         
-                        <div class="text-left p-4 bg-white/5 rounded-xl border border-white/10">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <p class="text-[9px] text-[#d4af37] uppercase font-bold mb-1">DANA</p>
-                                    <p class="text-lg font-bold">0129890721100</p>
-                                    <p class="text-[10px] opacity-70">a.n Sri Wulan</p>
-                                </div>
-                                <button onclick="copyText('0129890721100')" class="text-[9px] border border-[#d4af37] px-3 py-1 rounded-full text-[#d4af37] hover:bg-[#d4af37] hover:text-black transition-all">Salin</button>
-                            </div>
-                        </div>
+                        <label class="text-[9px] uppercase text-[#d4af37] ml-2 font-bold">Konfirmasi Kehadiran</label>
+                        <select id="rsvp-status" class="form-input form-select">
+                            <option value="Hadir">Saya akan Hadir</option>
+                            <option value="Ragu-ragu">Masih Ragu-ragu</option>
+                            <option value="Tidak Hadir">Berhalangan Hadir</option>
+                        </select>
+                        
+                        <label class="text-[9px] uppercase text-[#d4af37] ml-2 font-bold">Pesan/Doa</label>
+                        <textarea id="rsvp-message" class="form-input h-24" placeholder="Tulis ucapan atau doa untuk kami..."></textarea>
+                        
+                        <button id="submit-rsvp" onclick="saveRSVP()" class="w-full bg-[#d4af37] text-black font-bold py-3 rounded-xl text-xs uppercase tracking-widest flex items-center justify-center gap-2">
+                            Kirim Kehadiran
+                        </button>
                     </div>
 
-                    <p class="mt-6 text-[9px] italic opacity-60">Terima kasih atas perhatian dan kebaikan Anda.</p>
+                    <div class="divider"></div>
+                    <h3 class="text-[10px] uppercase tracking-widest text-[#d4af37] font-bold mb-4 text-center">Buku Tamu</h3>
+                    <div id="guest-book-list" class="guest-book">
+                        <p class="text-center text-[10px] opacity-50 py-4 italic">Memuat pesan...</p>
+                    </div>
                 </div>
             </div>
         </section>
-        <!-- Thanks Section -->
+
+        <section id="gifts">
+            <div class="content-wrapper">
+                <h2 class="text-xl font-serif text-[#d4af37] mb-6 mt-4 uppercase tracking-[0.3em]">Kado Digital</h2>
+                <div class="card">
+                    <div class="mb-6 px-2">
+                        <p class="text-[11px] leading-relaxed italic opacity-90">
+                            Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika memberi adalah bentuk tanda kasih, Anda dapat mengirimkannya melalui:
+                        </p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="text-left p-4 bg-white/5 rounded-xl border border-white/10 flex justify-between items-center">
+                            <div>
+                                <p class="text-[9px] text-[#d4af37] uppercase font-bold">BCA</p>
+                                <p class="text-lg font-bold">8420898062</p>
+                                <p class="text-[10px] opacity-70">a.n M. Okky Anggareksa</p>
+                            </div>
+                            <button onclick="copyText('8420898062')" class="text-[9px] border border-[#d4af37] px-3 py-1 rounded-full text-[#d4af37]">Salin</button>
+                        </div>
+                        <div class="text-left p-4 bg-white/5 rounded-xl border border-white/10 flex justify-between items-center">
+                            <div>
+                                <p class="text-[9px] text-[#d4af37] uppercase font-bold">BANK MANDIRI</p>
+                                <p class="text-lg font-bold">0129890721100</p>
+                                <p class="text-[10px] opacity-70">a.n Sri Wulan</p>
+                            </div>
+                            <button onclick="copyText('0129890721100')" class="text-[9px] border border-[#d4af37] px-3 py-1 rounded-full text-[#d4af37]">Salin</button>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-[#d4af37]/20">
+                        <p class="text-[10px] italic opacity-70">Terima kasih banyak atas perhatian dan tanda kasih Bapak/Ibu/Saudara/i.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="thanks">
             <div class="content-wrapper">
                 <h2 class="text-xl font-serif text-[#d4af37] mb-8 mt-4 uppercase tracking-[0.3em]">Terima Kasih</h2>
@@ -404,11 +449,8 @@
                         
                         <p class="text-[10px] tracking-[0.3em] uppercase text-[#d4af37] mb-4">Kami yang berbahagia,</p>
                         <h3 class="font-cursive text-5xl text-[#d4af37] mb-2">Wulan & Angga</h3>
-                        <p class="text-[10px] opacity-60">Beserta Keluarga Besar</p>
                     </div>
                 </div>
-                
-                <p class="mt-12 text-[10px] tracking-widest opacity-40 uppercase pb-10">#WulanAnggaWedding2026</p>
             </div>
         </section>
     </div>
@@ -426,6 +468,10 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
             <span>Acara</span>
         </div>
+        <div id="btn-rsvp" class="tab-item" onclick="switchTab('rsvp')">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+            <span>Hadir</span>
+        </div>
         <div id="btn-gifts" class="tab-item" onclick="switchTab('gifts')">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             <span>Kado</span>
@@ -436,94 +482,205 @@
         </div>
     </nav>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, addDoc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase Configuration
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'wedding-invitation-wulan-angga';
+        const firebaseConfig = JSON.parse(__firebase_config);
+        
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let currentUser = null;
+
+        async function authenticate() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined') {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Auth Error:", error);
+            }
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                loadRSVPs();
+            } else {
+                authenticate();
+            }
+        });
+
+        window.saveRSVP = async function() {
+            const name = document.getElementById('rsvp-name').value;
+            const status = document.getElementById('rsvp-status').value;
+            const message = document.getElementById('rsvp-message').value;
+            const btn = document.getElementById('submit-rsvp');
+
+            if(!name || !message) { 
+                showToast('Nama dan pesan harus diisi'); 
+                return; 
+            }
+
+            if (!currentUser) {
+                showToast('Sedang menyambungkan ke server...');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "Mengirim...";
+
+            try {
+                const rsvpCol = collection(db, 'artifacts', appId, 'public', 'data', 'rsvps');
+                await addDoc(rsvpCol, {
+                    name,
+                    status,
+                    message,
+                    timestamp: serverTimestamp(),
+                    userId: currentUser.uid
+                });
+                
+                showToast('Terima kasih atas ucapannya!');
+                document.getElementById('rsvp-message').value = '';
+            } catch (error) {
+                console.error("Error saving RSVP:", error);
+                showToast('Gagal mengirim, coba lagi nanti');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Kirim Kehadiran";
+            }
+        };
+
+        function loadRSVPs() {
+            const rsvpCol = collection(db, 'artifacts', appId, 'public', 'data', 'rsvps');
+            
+            onSnapshot(rsvpCol, (snapshot) => {
+                const list = document.getElementById('guest-book-list');
+                const docs = [];
+                snapshot.forEach(doc => docs.push(doc.data()));
+                
+                // Sort in memory (Rule 2: No complex queries)
+                docs.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+
+                if(docs.length === 0) {
+                    list.innerHTML = '<p class="text-center text-[10px] opacity-50 py-4 italic">Belum ada ucapan</p>';
+                    return;
+                }
+
+                list.innerHTML = docs.map(data => `
+                    <div class="message-card animate__animated animate__fadeIn">
+                        <div class="flex justify-between items-start mb-1">
+                            <p class="text-[11px] font-bold text-[#d4af37]">${data.name}</p>
+                            <span class="text-[8px] px-2 py-0.5 rounded-full bg-white/10 ${data.status === 'Hadir' ? 'text-green-400' : 'text-red-400'}">
+                                ${data.status}
+                            </span>
+                        </div>
+                        <p class="text-[10px] opacity-90 leading-relaxed">${data.message}</p>
+                    </div>
+                `).join('');
+            }, (error) => {
+                console.error("Snapshot error:", error);
+            });
+        }
+    </script>
+
     <script>
-        // Dynamic Guest Name from URL ?to=Nama+Tamu
+        // ... (Keep previous non-firebase script logic: URL params, Music, Tabs, Countdown, showToast) ...
         const urlParams = new URLSearchParams(window.location.search);
         const guest = urlParams.get('to');
         if(guest) {
             document.getElementById('guest-name').innerText = guest.replace(/\+/g, ' ');
+            document.getElementById('rsvp-name').value = guest.replace(/\+/g, ' ');
         }
 
-        // Music Control logic
         const music = document.getElementById('bg-music');
         const musicBtn = document.getElementById('music-toggle');
         let isPlaying = false;
 
         function toggleMusic() {
-            if (isPlaying) {
-                music.pause();
-                musicBtn.classList.remove('playing');
-            } else {
-                music.play();
-                musicBtn.classList.add('playing');
-            }
+            isPlaying ? music.pause() : music.play();
+            musicBtn.classList.toggle('playing');
             isPlaying = !isPlaying;
         }
 
         function openInvitation() {
-            const overlay = document.getElementById('overlay');
-            overlay.style.transform = 'translateY(-100%)';
-            
-            // Auto play music on open
-            music.play().then(() => {
-                isPlaying = true;
-                musicBtn.classList.add('playing');
-            }).catch(e => console.log("User interaction required for audio"));
-            
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 1200);
+            document.getElementById('overlay').style.transform = 'translateY(-100%)';
+            music.play().then(() => { isPlaying = true; musicBtn.classList.add('playing'); }).catch(() => {});
+            setTimeout(() => { document.getElementById('overlay').style.display = 'none'; }, 1200);
         }
 
         function switchTab(tabId) {
-            document.querySelectorAll('.tab-item').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('btn-' + tabId).classList.add('active');
+            const targetBtn = document.getElementById('btn-' + tabId);
+            const targetSection = document.getElementById(tabId);
 
-            document.querySelectorAll('section').forEach(section => {
-                section.classList.remove('active');
-            });
-            const activeSection = document.getElementById(tabId);
-            activeSection.classList.add('active');
-            activeSection.scrollTop = 0;
+            // Validasi apakah elemen ada sebelum memanipulasi classList
+            if (!targetBtn || !targetSection) {
+                console.warn(`Tab atau Section dengan ID "${tabId}" tidak ditemukan.`);
+                return;
+            }
+
+            // Reset semua tab
+            document.querySelectorAll('.tab-item').forEach(btn => btn.classList.remove('active'));
+            // Aktifkan tab yang dipilih
+            targetBtn.classList.add('active');
+
+            // Reset semua section
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            // Aktifkan section yang dipilih
+            targetSection.classList.add('active');
+            targetSection.scrollTop = 0;
         }
 
-        // Countdown logic
+        // Countdown
         const targetDate = new Date("May 18, 2026 19:00:00").getTime();
-
-        const timer = setInterval(function() {
+        setInterval(() => {
             const now = new Date().getTime();
-            const distance = targetDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerText = days.toString().padStart(2, '0');
-            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
-            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
-            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
-
-            if (distance < 0) {
-                clearInterval(timer);
-                document.getElementById("countdown").innerHTML = "<p class='font-bold text-gold uppercase'>Hari Bahagia Telah Tiba!</p>";
-            }
+            const d = targetDate - now;
+            document.getElementById("days").innerText = Math.floor(d / 86400000).toString().padStart(2, '0');
+            document.getElementById("hours").innerText = Math.floor((d % 86400000) / 3600000).toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = Math.floor((d % 3600000) / 60000).toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = Math.floor((d % 60000) / 1000).toString().padStart(2, '0');
         }, 1000);
 
-        function copyText(text) {
-            const temp = document.createElement('input');
-            document.body.appendChild(temp);
-            temp.value = text;
-            temp.select();
-            document.execCommand('copy');
-            document.body.removeChild(temp);
-            
-            // Custom toast instead of alert
-            const toast = document.createElement('div');
-            toast.className = 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#d4af37] text-black px-6 py-2 rounded-full font-bold text-xs animate__animated animate__fadeIn';
-            toast.innerText = 'Nomor rekening berhasil disalin!';
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 2000);
+        function sendRSVP() {
+            const name = document.getElementById('rsvp-name').value;
+            const status = document.getElementById('rsvp-status').value;
+            const guests = document.getElementById('rsvp-guests').value;
+            const message = document.getElementById('rsvp-message').value;
+
+            if(!name) { showToast('Mohon masukkan nama Anda'); return; }
+
+            const waNumber = "6281234567890"; // GANTI DENGAN NOMOR ANDA
+            const text = `Halo Wulan & Angga, saya ingin mengonfirmasi kehadiran.\n\n*Nama:* ${name}\n*Kehadiran:* ${status}\n*Jumlah:* ${guests}\n*Pesan:* ${message}`;
+            window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        async function copyText(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                showToast('Nomor rekening disalin!');
+            } catch (err) {
+                const input = document.createElement('input');
+                input.value = text; document.body.appendChild(input);
+                input.select(); document.execCommand('copy');
+                document.body.removeChild(input);
+                showToast('Nomor rekening disalin!');
+            }
+        }
+
+        function showToast(msg) {
+            const t = document.createElement('div');
+            t.className = 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#d4af37] text-black px-6 py-2 rounded-full font-bold text-xs animate__animated animate__fadeIn z-[10000]';
+            t.innerText = msg;
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 2000);
         }
     </script>
 </body>
